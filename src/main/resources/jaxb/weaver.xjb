@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+    jaxb:version="2.1">
+
+    <jaxb:bindings schemaLocation="loom-1.0.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="ru.weaver.shemas.loom" />
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+</jaxb:bindings>
