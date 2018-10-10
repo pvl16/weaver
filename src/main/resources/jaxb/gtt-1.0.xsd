@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://weaver.ru/schemas/gtt" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://weaver.ru/schemas/gtt" elementFormDefault="qualified">
+    <xs:element name="TWData" type="TWDataType">
+
+    </xs:element>
+    <xs:complexType name="TWDataType">
+        <xs:sequence>
+            <xs:element name="Source" type="xs:string" minOccurs="0" />
+            <xs:element name="Version" type="xs:string" minOccurs="0" />
+            <xs:element name="Release" type="xs:string" minOccurs="0" />
+            <xs:element name="Pattern" type="PatternType" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PatternType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Notes" type="xs:string" minOccurs="0" />
+            <xs:element name="Selvedges" type="SelvedgesType" minOccurs="0" />
+            <xs:element name="Cards" type="CardsType" />
+            <xs:element name="Packs" type="PacksType" />
+            <xs:element name="Picks" type="PicksType" />
+            <xs:element name="Palette" type="PaletteType" />
+        </xs:sequence>
+        <xs:attribute name="Type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Threaded-in" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="SelvedgesType">
+        <xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CardsType">
+        <xs:sequence>
+            <xs:element name="Card" type="CardType" maxOccurs="unbounded">
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="CardType">
+        <xs:sequence>
+            <xs:element name="Holes" type="HolesType" />
+            <xs:element name="Threading">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="S" />
+                        <xs:enumeration value="Z" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short" />
+    </xs:complexType>
+    <xs:complexType name="HolesType">
+        <xs:sequence>
+            <xs:element name="Colour" type="xs:short" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="PacksType">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short" />
+    </xs:complexType>
+    <xs:complexType name="PicksType">
+        <xs:sequence>
+            <xs:element name="Pick" type="PickType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short" />
+    </xs:complexType>
+    <xs:complexType name="PickType">
+        <xs:sequence>
+            <xs:element name="Actions" type="ActionsType" />
+        </xs:sequence>
+        <xs:attribute name="Index" type="xs:short" />
+    </xs:complexType>
+    <xs:complexType name="ActionsType">
+        <xs:sequence>
+            <xs:element name="Action" type="ActionType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Count" type="xs:short">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="ActionType">
+        <xs:attribute name="Type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Turn" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Target">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Card" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="TargetID" type="xs:short" />
+        <xs:attribute name="Dir">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="F" />
+                    <xs:enumeration value="B" />
+                    <xs:enumeration value="I" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Dist" type="xs:int" />
+    </xs:complexType>
+    <xs:complexType name="PaletteType">
+        <xs:sequence>
+            <xs:element name="Colour" type="xs:long" maxOccurs="unbounded">
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Name" type="xs:string" />
+        <xs:attribute name="Size" type="xs:short" />
+    </xs:complexType>
+    <xs:complexType name="ColourType">
+        <xs:simpleContent>
+            <xs:extension base="xs:long">
+                <xs:attribute name="Index" type="xs:short" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

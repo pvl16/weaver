@@ -12,4 +12,10 @@
         </jaxb:schemaBindings>
     </jaxb:bindings>
 
+    <jaxb:bindings schemaLocation="gtt-1.0.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="ru.weaver.shemas.gtt" />
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
 </jaxb:bindings>

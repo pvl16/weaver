@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://weaver.ru/schemas/loom" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://weaver.ru/schemas/loom" elementFormDefault="qualified"
-           attributeFormDefault="unqualified">
+<xs:schema xmlns="http://weaver.ru/schemas/loom" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://weaver.ru/schemas/loom">
 	<xs:element name="weavePattern" type="weavePatternType">
 		<xs:annotation>
 			<xs:documentation>Элемент - схема заправки станка</xs:documentation>
@@ -43,5 +42,7 @@
 		<xs:annotation>
 			<xs:documentation>Тип - схема заправки для дощечек</xs:documentation>
 		</xs:annotation>
+		<xs:sequence>
+		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

@@ -27,6 +27,7 @@
                         <configuration>
                             <schemaIncludes>
                                 <include>jaxb/loom-1.0.xsd</include>
+                                <include>jaxb/gtt-1.0.xsd</include>
                             </schemaIncludes>
                             <episodeFile>${project.build.directory}/generated-sources/xjc/META-INF/jaxb-shemas.episode</episodeFile>
                             <bindingIncludes>
