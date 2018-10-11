@@ -1,5 +1,7 @@
 package ru.weaver;
 
+import ru.weaver.appGUI.GUI;
+
 public class App {
 
   public static void main(String[] args) {

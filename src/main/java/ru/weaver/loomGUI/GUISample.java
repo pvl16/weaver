@@ -10,7 +10,7 @@ public class GUISample extends GUIPattern {
 
     public GUISample() {
         super();
-        this.setLayout(new GridBagLayout());
+//        this.setLayout(new GridBagLayout());
 //        sample = new Sample();
     }
 

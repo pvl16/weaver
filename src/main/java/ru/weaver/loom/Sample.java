@@ -81,7 +81,8 @@ public class Sample extends Pattern {
     private ArrayList<Weft> Wefts = null;
 
     public Sample(int cntTreadles, int cntHeddles, int cntWarps, int cntWefts, boolean isRoll, Color clrWarps, Color clrWefts) {
-        if (cntTreadles <= 0)
+      super();
+      if (cntTreadles <= 0)
             throw new IllegalArgumentException("cntTreadles is negative");
         if (cntHeddles <= 0)
             throw new IllegalArgumentException("cntHeddles is negative");
@@ -317,5 +318,10 @@ public class Sample extends Pattern {
         }
         return res;
     }
+
+//    @Override
+//    public void savetoFile(String path) {
+//
+//    }
 
 }

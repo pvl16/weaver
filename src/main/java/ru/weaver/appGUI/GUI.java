@@ -1,4 +1,4 @@
-package ru.weaver;
+package ru.weaver.appGUI;
 
 import ru.weaver.loomGUI.GUIPatternParameters;
 
@@ -12,7 +12,7 @@ public class GUI {
   public GUI() {
     mainFrame = new JFrame("Weaver");
     descFrame = new JDesktopPane();
-    mainFrame.add(descFrame);
+    mainFrame.getContentPane().add(descFrame);
     menuBar = new JMenuBar();
     mainFrame.setJMenuBar(menuBar);
     buildMenu();
@@ -29,7 +29,8 @@ public class GUI {
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     mainFrame.pack();
     mainFrame.setVisible(true);
-    mainFrame.setExtendedState (mainFrame.MAXIMIZED_BOTH);
+    mainFrame.setExtendedState(mainFrame.MAXIMIZED_BOTH);
+    descFrame.setVisible(true);
 
 //    mainFrame.setLocationRelativeTo(null);
   }
@@ -42,10 +43,13 @@ public class GUI {
         JMenu newMenu = new JMenu("New Pattern");
         {
           JMenuItem newSample = new JMenuItem("New Sample");
+          newSample.setActionCommand("NewSample");
+          newSample.addActionListener(new MainMenuListener(descFrame));
           newMenu.add(newSample);
         }
         {
           JMenuItem newTabled = new JMenuItem("New Tabled");
+          newTabled.addActionListener(new MainMenuListener(descFrame));
           newMenu.add(newTabled);
         }
         fileMenu.add(newMenu);
@@ -57,4 +61,5 @@ public class GUI {
 //    menuBar.add(helpMenu);
 
   }
+
 }
