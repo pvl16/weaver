@@ -3,19 +3,19 @@ package ru.weaver.loom;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Sample {
+public class Sample extends Pattern {
     /**
      * cntTreadles - число педалей
      * cntHeddles  - число ремиз
      * cntWarps    - число нитей основы
      * cntWefts    - число нитей утка
      */
-    private int cntTreadles = 0;
-    private int cntHeddles = 0;
-    private int cntWarps = 0;
-    private int cntWefts = 0;
-    private boolean isRoll = true;
-    private ArrayList<Object> samples = null;
+    private int cntTreadles;
+    private int cntHeddles;
+    private int cntWarps;
+    private int cntWefts;
+    private boolean isRoll;
+    private ArrayList<Object> samples;
 
     private class Warp {
         private int numberHeddle = 0;

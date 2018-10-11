@@ -3,7 +3,7 @@ package ru.weaver.loom;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Tabled {
+public class Tabled extends Pattern {
   private int colorCnt = 0;
   private ArrayList<Color> colors = null;
 

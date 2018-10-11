@@ -1,5 +1,7 @@
 package ru.weaver;
 
+import ru.weaver.loomGUI.GUIPatternParameters;
+
 import javax.swing.*;
 
 public class GUI {
@@ -14,6 +16,8 @@ public class GUI {
     menuBar = new JMenuBar();
     mainFrame.setJMenuBar(menuBar);
     buildMenu();
+
+//    GUIPatternParameters.init();
   }
 
   public void init() {
