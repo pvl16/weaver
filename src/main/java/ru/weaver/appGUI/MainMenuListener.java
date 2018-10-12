@@ -8,11 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenuListener implements ActionListener {
-  private Container frm;
 
-  public MainMenuListener(Container AFrame) {
+  public MainMenuListener() {
     super();
-    frm = AFrame;
   }
 
   public void actionPerformed(ActionEvent event) {
@@ -20,7 +18,7 @@ public class MainMenuListener implements ActionListener {
       String s = event.getActionCommand();
       if (s.equalsIgnoreCase("NewSample")) {
         GUISample gs = new GUISample();
-        frm.add(gs);
+        GUIUtils.addFrame(gs);
         gs.setVisible(true);
       }
     }

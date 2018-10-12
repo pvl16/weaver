@@ -17,6 +17,7 @@ public class GUI {
     mainFrame.setJMenuBar(menuBar);
     buildMenu();
 
+    GUIUtils.init(descFrame);
 //    GUIPatternParameters.init();
   }
 
@@ -44,12 +45,12 @@ public class GUI {
         {
           JMenuItem newSample = new JMenuItem("New Sample");
           newSample.setActionCommand("NewSample");
-          newSample.addActionListener(new MainMenuListener(descFrame));
+          newSample.addActionListener(new MainMenuListener());
           newMenu.add(newSample);
         }
         {
           JMenuItem newTabled = new JMenuItem("New Tabled");
-          newTabled.addActionListener(new MainMenuListener(descFrame));
+          newTabled.addActionListener(new MainMenuListener());
           newMenu.add(newTabled);
         }
         fileMenu.add(newMenu);
