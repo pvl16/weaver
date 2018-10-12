@@ -3,6 +3,7 @@ package ru.weaver.appGUI;
 import ru.weaver.loomGUI.GUIPatternParameters;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class GUI {
   private JFrame mainFrame = null;
@@ -54,6 +55,27 @@ public class GUI {
           newMenu.add(newTabled);
         }
         fileMenu.add(newMenu);
+      }
+      {
+        JMenuItem open_pattern = new JMenuItem("Open Pattern");
+        open_pattern.setActionCommand("OpenPattern");
+        open_pattern.addActionListener(new MainMenuListener());
+        fileMenu.add(open_pattern);
+      }
+      {
+        JMenuItem close_pattern = new JMenuItem("Close Pattern", KeyEvent.VK_L);
+        close_pattern.setActionCommand("ClosePattern");
+        close_pattern.addActionListener(new MainMenuListener());
+        fileMenu.add(close_pattern);
+      }
+      fileMenu.add(new JSeparator());
+      {
+        JMenuItem exit_item = new JMenuItem("Exit", KeyEvent.VK_N);
+        exit_item.setActionCommand("Exit");
+        exit_item.addActionListener(new MainMenuListener());
+        KeyStroke altXKeyStroke = KeyStroke.getKeyStroke("alt X");
+        exit_item.setAccelerator(altXKeyStroke);
+        fileMenu.add(exit_item);
       }
     }
 //    fileMenu = new JMenu("File");

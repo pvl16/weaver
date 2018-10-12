@@ -1,5 +1,6 @@
 package ru.weaver.appGUI;
 
+import ru.weaver.NotCreatePattern;
 import ru.weaver.loomGUI.GUISample;
 
 import javax.swing.*;
@@ -13,14 +14,24 @@ public class MainMenuListener implements ActionListener {
     super();
   }
 
+  private void newSamle() {
+    GUISample gs;
+    try {
+      gs = new GUISample();
+    } catch (NotCreatePattern e) {
+      return;
+    }
+    GUIUtils.addFrame(gs);
+    gs.setVisible(true);
+  }
+
   public void actionPerformed(ActionEvent event) {
     {
       String s = event.getActionCommand();
-      if (s.equalsIgnoreCase("NewSample")) {
-        GUISample gs = new GUISample();
-        GUIUtils.addFrame(gs);
-        gs.setVisible(true);
-      }
+      if (s.equalsIgnoreCase("NewSample"))
+        newSamle();
+      if (s.equalsIgnoreCase("Exit"))
+        System.exit(0);
     }
   }
 }
