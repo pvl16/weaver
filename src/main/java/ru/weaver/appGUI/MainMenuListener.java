@@ -1,12 +1,14 @@
 package ru.weaver.appGUI;
 
 import ru.weaver.NotCreatePattern;
+import ru.weaver.loomGUI.GUIPattern;
 import ru.weaver.loomGUI.GUISample;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Method;
 
 public class MainMenuListener implements ActionListener {
 
@@ -14,24 +16,49 @@ public class MainMenuListener implements ActionListener {
     super();
   }
 
-  private void newSamle() {
-    GUISample gs;
-    try {
-      gs = new GUISample();
-    } catch (NotCreatePattern e) {
-      return;
-    }
-    GUIUtils.addFrame(gs);
-    gs.setVisible(true);
-  }
-
   public void actionPerformed(ActionEvent event) {
     {
-      String s = event.getActionCommand();
-      if (s.equalsIgnoreCase("NewSample"))
-        newSamle();
-      if (s.equalsIgnoreCase("Exit"))
-        System.exit(0);
+      try {
+        Class[] paramTypes = new Class[]{};
+        Method m = this.getClass().getMethod(event.getActionCommand(), paramTypes);
+        if (m != null) {
+          Object[] argv = new Object[]{};
+          m.invoke(this, argv);
+        }
+      } catch (Exception e) {
+//        e.printStackTrace();
+      }
     }
   }
+
+  public void NewSample() {
+    try {
+      GUISample gs = new GUISample();
+      GUIUtils.addFrame(gs);
+      gs.setVisible(true);
+      gs.getComponentPopupMenu().show(gs, 5, 5);
+    } catch (NotCreatePattern e) {
+    }
+  }
+
+  public void Exit() { System.exit(0); }
+
+  public void ZoomInSample() {
+    GUIPattern a = GUIUtils.selected();
+    if (a == null) return;
+    a.zoomIn();
+  }
+
+  public void ZoomOutSample() {
+    GUIPattern a = GUIUtils.selected();
+    if (a == null) return;
+    a.zoomOut();
+  }
+
+  public void Zoom10Sample() {
+    GUIPattern a = GUIUtils.selected();
+    if (a == null) return;
+    a.zoom10();
+  }
+
 }

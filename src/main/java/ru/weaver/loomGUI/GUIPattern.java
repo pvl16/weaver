@@ -10,14 +10,8 @@ public class GUIPattern extends JInternalFrame {
   protected JScrollPane scrollPane;
   protected JPanel jPatPanel;
   protected GUIPatternParameters parameters;
-
-  protected void initParams() {
-    parameters = new GUIPatternParameters();
-  }
-
-  protected boolean getParams() {
-    return parameters.isGet();
-  }
+  protected JPopupMenu popMenu;
+  protected short zoom;
 
   public GUIPattern() throws NotCreatePattern {
     initParams();
@@ -29,25 +23,30 @@ public class GUIPattern extends JInternalFrame {
     this.setClosable(true);
     this.setMaximizable(true);
     this.setIconifiable(true);
-//    jPanel = new JPanel();
-//    this.getContentPane().add(jPanel);
-//    scrollPane = new JScrollPane(jPanel);
-//    scrollPane.add(jPatPanel);
+
     jPatPanel = new JPanel();
     scrollPane = new JScrollPane(jPatPanel);
     this.add(scrollPane);
 
-//    GridBagLayout gridbag = new GridBagLayout();
-//    GridBagConstraints c = new GridBagConstraints();
-//    this.getContentPane().setLayout(gridbag);
-//    c.gridx = 0;
-//    c.gridy = 0;
-//    c.fill = GridBagConstraints.BOTH;
-//    c.weightx = 1.0;
-//    c.weighty = 1.0;
-//    gridbag.setConstraints(scrollPane, c);
-////cont.setLayout(new BorderLayout());
-//    this.getContentPane().add(scrollPane);
+    popMenu = new JPopupMenu("Pop-Up");
+    jPatPanel.setComponentPopupMenu(popMenu);
+    zoom = 10;
   }
+
+  protected void initParams() {
+    parameters = new GUIPatternParameters();
+  }
+
+  protected boolean getParams() {
+    return parameters.isGet();
+  }
+
+  public void onSetSize() {
+
+  }
+
+  public void zoomIn()  { if (zoom < 20) zoom++; onSetSize(); }
+  public void zoomOut() { if (zoom >  4) zoom--; onSetSize(); }
+  public void zoom10()  { zoom = 10; onSetSize(); }
 
 }

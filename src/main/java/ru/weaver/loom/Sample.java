@@ -302,10 +302,12 @@ public class Sample extends Pattern {
         Wefts.get(Index).setNumberTreadle(Treadle);
     }
 
+    public Boolean getIsSampleUp(int IndexHeddle, int IndexTreadle) throws Exception {
+        return ((ArrayList<Boolean>) samples.get(IndexHeddle)).get(IndexTreadle);
+    }
+
     public Boolean getIsUp(int IndexWarp, int IndexWeft) throws Exception {
-        int numHeddle  = getHeddleWarp(IndexWarp);
-        int numTreadle = getTreadleWeft(IndexWeft);
-        return ((ArrayList<Boolean>) samples.get(numHeddle)).get(numTreadle);
+        return getIsSampleUp(getHeddleWarp(IndexWarp), getTreadleWeft(IndexWeft));
     }
 
     public Color getColor(int IndexWarp, int IndexWeft) throws Exception {
