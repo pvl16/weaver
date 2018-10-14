@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.reflect.Method;
 
+import ru.weaver.appGUI.GUIUtils;
+
 import static ru.weaver.loomGUI.GUISample.PosSample.*;
 
 public class GUISample extends GUIPattern {
@@ -59,6 +61,7 @@ public class GUISample extends GUIPattern {
         Dimension d = new Dimension((getAXCount() + 2) * tZoom, (getAYCount() + 2) * tZoom);
         jPatPanel.setPreferredSize(d);
         jPatPanel.setMaximumSize(d);
+        scrollPane.repaint();
 //        this.doLayout();
 //        this.pack();
 //        this.repaint();
@@ -70,7 +73,7 @@ public class GUISample extends GUIPattern {
     private boolean isSampleTop()  { return ((posSample == TOPLEFT)||(posSample == TOPRIGHT)); }
     private boolean isSampleLeft() { return ((posSample == TOPLEFT)||(posSample == BTMLEFT));  }
 
-    private class Pans extends JPanel {
+    private class Pans extends JPanel implements MouseListener {
         int szX;
         int szY;
         int posX;
@@ -89,7 +92,7 @@ public class GUISample extends GUIPattern {
             this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
             this.onSetPosSample();
             this.onSetSize();
-            this.addMouseListener(new PopupListener());
+//            this.addMouseListener(new PopupListener());
         }
 
         protected int getXCount() {
@@ -128,36 +131,69 @@ public class GUISample extends GUIPattern {
             bgY = 0; dY = 0;
         }
 
-        private class PopupListener implements MouseListener {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+        protected void onClicked(int X, int Y) {
+            return;
         }
+
+        protected void onEntered(int X, int Y) {
+            return;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            onClicked(e.getX(), e.getY());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            onEntered(e.getX(), e.getY());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+
+//        private class PopupListener implements MouseListener {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popMenu.show(e.getComponent(), e.getX(), e.getY());
+//                }
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popMenu.show(e.getComponent(), e.getX(), e.getY());
+//                }
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//
+//            }
+//        }
     }
 
     private class PanView extends Pans {
@@ -198,6 +234,11 @@ public class GUISample extends GUIPattern {
                 }
                 cY += dY;
             }
+        }
+
+        protected void onClicked(int X, int Y) {
+
+            return;
         }
 
     }
@@ -253,6 +294,21 @@ public class GUISample extends GUIPattern {
                     cX += dX;
                 }
             } catch (Exception e) {
+            }
+
+        }
+
+        protected void onClicked(int X, int Y) {
+            int nX = X / tZoom;
+            int nY = Y / tZoom;
+            return;
+        }
+
+        protected void onEntered(int X, int Y) {
+            int nX = X / tZoom;
+            int nY = Y / tZoom;
+            if ((nX >= 0)&&(nX < sample.getCntWarps())) {
+                GUIUtils.SetStatText(3, String.format("%d", nX));
             }
 
         }

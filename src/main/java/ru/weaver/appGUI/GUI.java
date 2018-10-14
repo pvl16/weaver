@@ -3,8 +3,11 @@ package ru.weaver.appGUI;
 import ru.weaver.loomGUI.GUIPatternParameters;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+
+import static ru.weaver.appGUI.GUIUtils.AddStatLb;
 
 public class GUI {
   private JFrame mainFrame = null;
@@ -12,20 +15,24 @@ public class GUI {
   private JMenuBar menuBar = null;
   private JToolBar toolBar = null;
   private MainMenuListener listener = null;
+  private JPanel statBar = null;
 
   public GUI() {
     mainFrame = new JFrame("Weaver");
     descFrame = new JDesktopPane();
+    GUIUtils.init(descFrame);
     mainFrame.getContentPane().add(descFrame);
     menuBar = new JMenuBar();
     toolBar = new JToolBar();
+    statBar = new JPanel();
     mainFrame.setJMenuBar(menuBar);
     mainFrame.add(toolBar, BorderLayout.PAGE_START);
+    mainFrame.add(statBar, BorderLayout.PAGE_END);
     listener = new MainMenuListener();
     buildMenu();
     buildTools();
+    buildStatBar();
 
-    GUIUtils.init(descFrame);
 //    GUIPatternParameters.init();
   }
 
@@ -117,4 +124,19 @@ public class GUI {
     }
     toolBar.addSeparator();
   }
+
+  private void buildStatBar() {
+      statBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
+      for (int i = 0; i< 5; i++) {
+//          JPanel p = new JPanel();
+//          p.setBorder(new BevelBorder(BevelBorder.LOWERED));
+//          statBar.add(p, BorderLayout.PAGE_START);
+          JLabel l = new JLabel("");
+          l.setHorizontalAlignment(SwingConstants.LEFT);
+          l.setBorder(new BevelBorder(BevelBorder.LOWERED));
+          GUIUtils.AddStatLb(l);
+          statBar.add(l);
+      }
+  }
+
 }

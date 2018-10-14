@@ -3,12 +3,15 @@ package ru.weaver.appGUI;
 import ru.weaver.loomGUI.GUIPattern;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class GUIUtils {
   private static JDesktopPane mainDescFrame;
+  private static ArrayList<JLabel> statLb;
 
   public static void init(JDesktopPane ADesktopPane) {
     mainDescFrame = ADesktopPane;
+    statLb = new ArrayList<JLabel>();
   }
 
   public static JDesktopPane getMainDescFrame() {
@@ -28,6 +31,15 @@ public class GUIUtils {
       return ((GUIPattern)t);
     }
     return null;
+  }
+
+  public static void AddStatLb(JLabel lb) {
+    statLb.add(lb);
+  }
+
+  public static void SetStatText(int Index, String Text) {
+    if ((Index < 0) || (Index >= statLb.size())) return;
+    statLb.get(Index).setText(Text);
   }
 
 }
