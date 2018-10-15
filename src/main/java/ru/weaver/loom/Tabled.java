@@ -4,27 +4,29 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Tabled extends Pattern {
-  private int colorCnt = 0;
-  private ArrayList<Color> colors = null;
+    private int colorCnt = 0;
+    private ArrayList<Color> colors = null;
 
-  private class Card {
+    private class Card {
 
-  }
-  private int cardCnt = 0;
-  private ArrayList<Card> cards = null;
+    }
 
-  private class Action {
+    private int cardCnt = 0;
+    private ArrayList<Card> cards = null;
 
-  }
-  private class Pick {
+    private class Action {
 
-  }
-  private int pickCnt = 0;
-  private ArrayList<Pick> picks = null;
+    }
+
+    private class Pick {
+
+    }
+
+    private int pickCnt = 0;
+    private ArrayList<Pick> picks = null;
 
 
-  public Tabled(String filePath) {
+    public Tabled(String filePath) {
 
-  }
-
+    }
 }

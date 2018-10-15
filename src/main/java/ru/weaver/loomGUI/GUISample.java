@@ -1,12 +1,15 @@
 package ru.weaver.loomGUI;
 
 import ru.weaver.NotCreatePattern;
+import ru.weaver.appGUI.pvlColorChooser;
 import ru.weaver.loom.Sample;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import ru.weaver.appGUI.GUIUtils;
@@ -18,6 +21,7 @@ public class GUISample extends GUIPattern {
     private Sample sample;
     private int tZoom;
     private PosSample posSample;
+    private pvlColorChooser colorChooser;
 
     public GUISample() throws NotCreatePattern {
         super();
@@ -25,7 +29,7 @@ public class GUISample extends GUIPattern {
         onSetZoom();
         posSample = PosSample.BTMLEFT;
 
-        sample = new Sample(4, 4, 50, 20, true, Color.GREEN, Color.RED);
+        sample = new Sample((short)4, (short)4, (short)50, (short)20, true, Color.GREEN, Color.RED);
         setTitle("New Sample");
         jPatPanel.setLayout(null);
         panView = new PanView();
@@ -39,6 +43,16 @@ public class GUISample extends GUIPattern {
         makePop();
         onSetSize();
         this.pack();
+        colorChooser = new pvlColorChooser();
+
+    }
+
+    protected void AfterChooseFileSave() {
+        sample.savetoFile(filePath);
+    }
+
+    public boolean LoadFile(File filePath) {
+        return false;
     }
 
     private void onSetZoom() { tZoom = 4 + 3 * zoom; }
@@ -157,14 +171,14 @@ public class GUISample extends GUIPattern {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            int cntX = sample.getCntWarps();
-            int cntY = sample.getCntWefts();
+            short cntX = sample.getCntWarps();
+            short cntY = sample.getCntWefts();
             int cX = 0;
             int cY = bgY;
 
-            for(int i = 0; i < cntY; i++) {
+            for(short i = 0; i < cntY; i++) {
                 cX = bgX;
-                for (int j = 0; j < cntX ; j++) {
+                for (short j = 0; j < cntX ; j++) {
                     Color c = Color.WHITE;
                     try {
                         c = sample.getColor(j, i);
@@ -204,8 +218,8 @@ public class GUISample extends GUIPattern {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             try {
-                int cntX = sample.getCntWarps();
-                int cntY = sample.getCntHeddles();
+                short cntX = sample.getCntWarps();
+                short cntY = sample.getCntHeddles();
                 int cX = 0;
                 int cY = bgY;
 
@@ -215,9 +229,9 @@ public class GUISample extends GUIPattern {
                 int aX = (int) ((tZoom - lm.getWidth()) / 2);
                 int aY = (int) ((tZoom - lm.getHeight()) / 2);
 
-                for(int i = 0; i < cntY; i++) {
+                for(short i = 0; i < cntY; i++) {
                     cX = bgX;
-                    for (int j = 0; j < cntX ; j++) {
+                    for (short j = 0; j < cntX ; j++) {
                         g.setColor(Color.WHITE);
                         g.fillRect(cX, cY, tZoom, tZoom);
                         g.setColor(Color.BLACK);
@@ -230,7 +244,7 @@ public class GUISample extends GUIPattern {
                     cY += dY;
                 }
                 cX = bgX;
-                for (int i = 0; i < cntX; i++) {
+                for (short i = 0; i < cntX; i++) {
                     g.setColor(Color.WHITE);
                     g.fillRect(cX, cY, tZoom, tZoom);
                     g.setColor(sample.getColorWarp(i));
@@ -247,8 +261,8 @@ public class GUISample extends GUIPattern {
         }
 
         protected void onClicked(int X, int Y, boolean isPop) {
-            int nX = X / tZoom;
-            int nY = Y / tZoom;
+            short nX = (short)(X / tZoom);
+            short nY = (short)(Y / tZoom);
 
             if ((nX < 0) || (nX >= sample.getCntWarps())) return;
             if ((nY < 0) || (nY >= sample.getCntHeddles() + 2)) return;
@@ -259,13 +273,14 @@ public class GUISample extends GUIPattern {
             }
 
             if (!isSampleLeft())
-                nX = sample.getCntWarps() - nX - 1;
+                nX = (short)(sample.getCntWarps() - nX - 1);
             if (isSampleTop())
-                nY = sample.getCntHeddles() - nY + 1;
+                nY = (short)(sample.getCntHeddles() - nY + 1);
 
             if (nY == sample.getCntHeddles()) {
-                Color c = JColorChooser.showDialog(null, "choise Color", sample.getColorWarp(nX));
-                sample.setColorWarp(nX, c);
+                Color c = colorChooser.getColor("choise Color", sample.getColorWarp(nX));
+                if (c != null)
+                    sample.setColorWarp(nX, c);
             } else if (nY < sample.getCntHeddles()) {
                 sample.setHeddleWarp(nX, nY);
             }
@@ -293,8 +308,8 @@ public class GUISample extends GUIPattern {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             try {
-                int cntX = sample.getCntTreadles();
-                int cntY = sample.getCntWefts();
+                short cntX = sample.getCntTreadles();
+                short cntY = sample.getCntWefts();
                 int cX = 0;
                 int cY = bgY;
 
@@ -304,9 +319,9 @@ public class GUISample extends GUIPattern {
                 int aX = (int) ((tZoom - lm.getWidth()) / 2);
                 int aY = (int) ((tZoom - lm.getHeight()) / 2);
 
-                for (int i = 0; i < cntY; i++) {
+                for (short i = 0; i < cntY; i++) {
                     cX = bgX;
-                    for (int j = 0; j < cntX; j++) {
+                    for (short j = 0; j < cntX; j++) {
                         g.setColor(Color.WHITE);
                         g.fillRect(cX, cY, tZoom, tZoom);
                         g.setColor(Color.BLACK);
@@ -333,8 +348,8 @@ public class GUISample extends GUIPattern {
         }
 
         protected void onClicked(int X, int Y, boolean isPop) {
-            int nX = X / tZoom;
-            int nY = Y / tZoom;
+            short nX = (short)(X / tZoom);
+            short nY = (short)(Y / tZoom);
 
             if ((nX < 0) || (nX >= sample.getCntTreadles() + 2)) return;
             if ((nY < 0) || (nY >= sample.getCntWefts())) return;
@@ -345,13 +360,14 @@ public class GUISample extends GUIPattern {
             }
 
             if (isSampleLeft())
-                nX = sample.getCntTreadles() - nX + 1;
+                nX = (short)(sample.getCntTreadles() - nX + 1);
             if (!isSampleTop())
-                nY = sample.getCntWefts() - nY - 1;
+                nY = (short)(sample.getCntWefts() - nY - 1);
 
             if (nX == sample.getCntTreadles()) {
-                Color c = JColorChooser.showDialog(null, "choise Color", sample.getColorWeft(nY));
-                sample.setColorWeft(nY, c);
+                Color c = colorChooser.getColor("choise Color", sample.getColorWeft(nY));
+                if (c != null)
+                    sample.setColorWeft(nY, c);
             } else if (nX < sample.getCntTreadles()){
                 sample.setTreadleWeft(nY, nX);
             }
@@ -378,14 +394,14 @@ public class GUISample extends GUIPattern {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            int cntX = sample.getCntTreadles();
-            int cntY = sample.getCntHeddles();
+            short cntX = sample.getCntTreadles();
+            short cntY = sample.getCntHeddles();
             int cX = 0;
             int cY = bgY;
 
-            for(int i = 0; i < cntY; i++) {
+            for(short i = 0; i < cntY; i++) {
                 cX = bgX;
-                for (int j = 0; j < cntX ; j++) {
+                for (short j = 0; j < cntX ; j++) {
                     g.setColor(Color.BLACK);
                     g.fillRect(cX, cY, tZoom, tZoom);
                     boolean isUp = false;
@@ -404,8 +420,8 @@ public class GUISample extends GUIPattern {
         }
 
         protected void onClicked(int X, int Y, boolean isPop) {
-            int nX = X / tZoom;
-            int nY = Y / tZoom;
+            short nX = (short)(X / tZoom);
+            short nY = (short)(Y / tZoom);
 
             if ((nX < 0) || (nX >= sample.getCntTreadles() + 2)) return;
             if ((nY < 0) || (nY >= sample.getCntHeddles() + 2)) return;
@@ -416,9 +432,9 @@ public class GUISample extends GUIPattern {
             }
 
             if (isSampleLeft())
-                nX = sample.getCntTreadles() - nX + 1;
+                nX = (short)(sample.getCntTreadles() - nX + 1);
             if (isSampleTop())
-                nY = sample.getCntHeddles() - nY + 1;
+                nY = (short)(sample.getCntHeddles() - nY + 1);
 
             try {
                 if ((nX < sample.getCntTreadles()) && (nY < sample.getCntHeddles())) {

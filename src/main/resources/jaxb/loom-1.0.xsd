@@ -37,6 +37,51 @@
 		<xs:annotation>
 			<xs:documentation>Тип - схема заправки станка</xs:documentation>
 		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Sample" type="SampleType"/>
+			<!--<xs:element name="TreadlesCount" type="xs:short"/>-->
+			<!--<xs:element name="HeddlesCount" type="xs:short"/>-->
+			<xs:element name="Warps" type="WarpsType"/>
+			<xs:element name="Wefts" type="WeftsType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SampleType">
+		<xs:sequence>
+			<xs:element name="SampleElement" type="SampleElementType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="HeddlesCount" type="xs:short"/>
+		<xs:attribute name="TreadlesCount" type="xs:short"/>
+	</xs:complexType>
+	<xs:complexType name="SampleElementType">
+		<xs:attribute name="Heddle" type="xs:short"/>
+		<xs:attribute name="Treadle" type="xs:short"/>
+		<xs:attribute name="isUp" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="WarpsType">
+		<xs:sequence>
+			<xs:element name="Warp" type="WarpType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="Count" type="xs:short"/>
+	</xs:complexType>
+	<xs:complexType name="WarpType">
+		<xs:sequence>
+			<xs:element name="Color" type="xs:string" />
+			<xs:element name="Heddle" type="xs:short" />
+		</xs:sequence>
+		<xs:attribute name="Index" type="xs:short"/>
+	</xs:complexType>
+	<xs:complexType name="WeftsType">
+		<xs:sequence>
+			<xs:element name="Weft" type="WeftType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="Count" type="xs:short"/>
+	</xs:complexType>
+	<xs:complexType name="WeftType">
+		<xs:sequence>
+			<xs:element name="Color" type="xs:string" />
+			<xs:element name="Treadle" type="xs:short" />
+		</xs:sequence>
+		<xs:attribute name="Index" type="xs:short"/>
 	</xs:complexType>
 	<xs:complexType name="tabletPatternType">
 		<xs:annotation>
