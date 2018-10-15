@@ -306,6 +306,11 @@ public class Sample extends Pattern {
         return ((ArrayList<Boolean>) samples.get(IndexHeddle)).get(IndexTreadle);
     }
 
+    public void setIsSampleUp(int IndexHeddle, int IndexTreadle, boolean isUp) throws Exception {
+        ArrayList<Boolean> o = (ArrayList<Boolean>) samples.get(IndexHeddle);
+        o.set(IndexTreadle, isUp);
+    }
+
     public Boolean getIsUp(int IndexWarp, int IndexWeft) throws Exception {
         return getIsSampleUp(getHeddleWarp(IndexWarp), getTreadleWeft(IndexWeft));
     }

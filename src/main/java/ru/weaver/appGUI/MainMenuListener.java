@@ -61,4 +61,36 @@ public class MainMenuListener implements ActionListener {
     a.zoom10();
   }
 
+  public void SampleTopLeft() {
+      GUIPattern a = GUIUtils.selected();
+      if (a == null) return;
+      if (a instanceof GUISample) {
+          ((GUISample)a).posTopLeft();
+      }
+  }
+
+  public void SampleTopRight() {
+      GUIPattern a = GUIUtils.selected();
+      if (a == null) return;
+      if (a instanceof GUISample) {
+          ((GUISample)a).posTopRight();
+      }
+  }
+
+  public void SampleBtmLeft() {
+      GUIPattern a = GUIUtils.selected();
+      if (a == null) return;
+      if (a instanceof GUISample) {
+          ((GUISample)a).posBtmLeft();
+      }
+  }
+
+  public void SampleBtmRight() {
+      GUIPattern a = GUIUtils.selected();
+      if (a == null) return;
+      if (a instanceof GUISample) {
+          ((GUISample)a).posBtmRight();
+      }
+  }
+
 }

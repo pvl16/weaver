@@ -5,10 +5,8 @@ import ru.weaver.loom.Sample;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Method;
 
 import ru.weaver.appGUI.GUIUtils;
@@ -20,35 +18,27 @@ public class GUISample extends GUIPattern {
     private Sample sample;
     private int tZoom;
     private PosSample posSample;
-//    private SampleLayout sampleLayout;
 
     public GUISample() throws NotCreatePattern {
         super();
 
         onSetZoom();
         posSample = PosSample.BTMLEFT;
-//        sampleLayout = new SampleLayout();
 
         sample = new Sample(4, 4, 50, 20, true, Color.GREEN, Color.RED);
         setTitle("New Sample");
-//        jPatPanel.setLayout(sampleLayout);
         jPatPanel.setLayout(null);
         panView = new PanView();
-//        panView.setComponentPopupMenu(popMenu);
         panWefts = new PanWefts();
-//        panWefts.setComponentPopupMenu(popMenu);
         panWarps = new PanWarps();
-//        panWarps.setComponentPopupMenu(popMenu);
         panSample = new PanSample();
-//        panSample.setComponentPopupMenu(popMenu);
         jPatPanel.add(panView);
         jPatPanel.add(panWefts);
         jPatPanel.add(panWarps);
         jPatPanel.add(panSample);
         makePop();
-//        MouseListener popupListener = new PopupListener();
-//        this.pack();
         onSetSize();
+        this.pack();
     }
 
     private void onSetZoom() { tZoom = 4 + 3 * zoom; }
@@ -62,9 +52,14 @@ public class GUISample extends GUIPattern {
         jPatPanel.setPreferredSize(d);
         jPatPanel.setMaximumSize(d);
         scrollPane.repaint();
-//        this.doLayout();
-//        this.pack();
-//        this.repaint();
+    }
+
+    private void onSetPos() {
+        panView.onSetPosSample();
+        panWarps.onSetPosSample();
+        panWefts.onSetPosSample();
+        panSample.onSetPosSample();
+        this.onSetSize();
     }
 
     private int getAXCount() { return sample.getCntWarps() + sample.getCntTreadles(); }
@@ -73,7 +68,7 @@ public class GUISample extends GUIPattern {
     private boolean isSampleTop()  { return ((posSample == TOPLEFT)||(posSample == TOPRIGHT)); }
     private boolean isSampleLeft() { return ((posSample == TOPLEFT)||(posSample == BTMLEFT));  }
 
-    private class Pans extends JPanel implements MouseListener {
+    private class Pans extends JPanel {
         int szX;
         int szY;
         int posX;
@@ -92,7 +87,7 @@ public class GUISample extends GUIPattern {
             this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
             this.onSetPosSample();
             this.onSetSize();
-//            this.addMouseListener(new PopupListener());
+            this.addMouseListener(new pansMouseAdapter());
         }
 
         protected int getXCount() {
@@ -131,69 +126,16 @@ public class GUISample extends GUIPattern {
             bgY = 0; dY = 0;
         }
 
-        protected void onClicked(int X, int Y) {
+        protected void onClicked(int X, int Y, boolean isPop) {
             return;
         }
 
-        protected void onEntered(int X, int Y) {
-            return;
+        private class pansMouseAdapter extends MouseAdapter {
+            public void mouseClicked(MouseEvent e) {
+                onClicked(e.getX(), e.getY(), e.isPopupTrigger());
+            }
         }
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            onClicked(e.getX(), e.getY());
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            onEntered(e.getX(), e.getY());
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-
-//        private class PopupListener implements MouseListener {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                if (e.isPopupTrigger()) {
-//                    popMenu.show(e.getComponent(), e.getX(), e.getY());
-//                }
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//                if (e.isPopupTrigger()) {
-//                    popMenu.show(e.getComponent(), e.getX(), e.getY());
-//                }
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//
-//            }
-//        }
     }
 
     private class PanView extends Pans {
@@ -206,7 +148,7 @@ public class GUISample extends GUIPattern {
         }
 
         public void onAfterSetSize() {
-            if (!isSampleLeft()) { bgX = 1;               dX =  tZoom; }
+            if ( isSampleLeft()) { bgX = 1;               dX =  tZoom; }
             else                 { bgX = szX - tZoom - 1; dX = -tZoom; }
             if ( isSampleTop())  { bgY = 1;               dY =  tZoom; }
             else                 { bgY = szY - tZoom - 1; dY = -tZoom; }
@@ -267,6 +209,12 @@ public class GUISample extends GUIPattern {
                 int cX = 0;
                 int cY = bgY;
 
+                g.setFont(new Font("Monospaced", Font.PLAIN, tZoom / 2));
+                FontMetrics fm = g.getFontMetrics();
+                Rectangle2D lm = fm.getStringBounds("50", g);
+                int aX = (int) ((tZoom - lm.getWidth()) / 2);
+                int aY = (int) ((tZoom - lm.getHeight()) / 2);
+
                 for(int i = 0; i < cntY; i++) {
                     cX = bgX;
                     for (int j = 0; j < cntX ; j++) {
@@ -290,7 +238,7 @@ public class GUISample extends GUIPattern {
                     g.setColor(Color.BLACK);
                     g.drawRect(cX, cY, tZoom, tZoom);
                     g.drawRect(cX, cY + dY, tZoom, tZoom);
-                    g.drawString(String.format("%d", i + 1), cX, cY + dY);
+                    g.drawString(String.format("%2d", i + 1), cX + aX, cY + dY + tZoom - aY);
                     cX += dX;
                 }
             } catch (Exception e) {
@@ -298,19 +246,30 @@ public class GUISample extends GUIPattern {
 
         }
 
-        protected void onClicked(int X, int Y) {
+        protected void onClicked(int X, int Y, boolean isPop) {
             int nX = X / tZoom;
             int nY = Y / tZoom;
-            return;
-        }
 
-        protected void onEntered(int X, int Y) {
-            int nX = X / tZoom;
-            int nY = Y / tZoom;
-            if ((nX >= 0)&&(nX < sample.getCntWarps())) {
-                GUIUtils.SetStatText(3, String.format("%d", nX));
+            if ((nX < 0) || (nX >= sample.getCntWarps())) return;
+            if ((nY < 0) || (nY >= sample.getCntHeddles() + 2)) return;
+
+            if (isPop) {
+                popMenu.show(this, X, Y);
+                return;
             }
 
+            if (!isSampleLeft())
+                nX = sample.getCntWarps() - nX - 1;
+            if (isSampleTop())
+                nY = sample.getCntHeddles() - nY + 1;
+
+            if (nY == sample.getCntHeddles()) {
+                Color c = JColorChooser.showDialog(null, "choise Color", sample.getColorWarp(nX));
+                sample.setColorWarp(nX, c);
+            } else if (nY < sample.getCntHeddles()) {
+                sample.setHeddleWarp(nX, nY);
+            }
+            jPatPanel.repaint();
         }
 
     }
@@ -333,43 +292,70 @@ public class GUISample extends GUIPattern {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            int cntX = sample.getCntTreadles();
-            int cntY = sample.getCntWefts();
-            int cX = 0;
-            int cY = bgY;
+            try {
+                int cntX = sample.getCntTreadles();
+                int cntY = sample.getCntWefts();
+                int cX = 0;
+                int cY = bgY;
 
-            for(int i = 0; i < cntY; i++) {
-                cX = bgX;
-                for (int j = 0; j < cntX ; j++) {
+                g.setFont(new Font("Monospaced", Font.PLAIN, tZoom / 2));
+                FontMetrics fm = g.getFontMetrics();
+                Rectangle2D lm = fm.getStringBounds("50", g);
+                int aX = (int) ((tZoom - lm.getWidth()) / 2);
+                int aY = (int) ((tZoom - lm.getHeight()) / 2);
+
+                for (int i = 0; i < cntY; i++) {
+                    cX = bgX;
+                    for (int j = 0; j < cntX; j++) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect(cX, cY, tZoom, tZoom);
+                        g.setColor(Color.BLACK);
+                        g.drawRect(cX, cY, tZoom, tZoom);
+                        if (sample.getTreadleWeft(i) == j)
+                            g.fillRect(cX, cY, tZoom, tZoom);
+                        cX += dX;
+                    }
+
                     g.setColor(Color.WHITE);
+                    g.fillRect(cX, cY, tZoom, tZoom);
+                    g.fillRect(cX + dX, cY, tZoom, tZoom);
+                    g.setColor(sample.getColorWeft(i));
                     g.fillRect(cX, cY, tZoom, tZoom);
                     g.setColor(Color.BLACK);
                     g.drawRect(cX, cY, tZoom, tZoom);
-                    boolean isUp = false;
-                    try {
-                        isUp = (sample.getTreadleWeft(i) == j);
-                    } catch (Exception e) {
-                    }
-                    if (isUp) {
-                        g.fillRect(cX, cY, tZoom, tZoom);
-                    }
-                    cX += dX;
+                    g.drawRect(cX + dX, cY, tZoom, tZoom);
+                    g.drawString(String.format("%2d", i + 1), cX + dX + aX, cY + tZoom - aY);
+
+                    cY += dY;
                 }
-
-                g.setColor(Color.WHITE);
-                g.fillRect(cX, cY, tZoom, tZoom);
-                g.fillRect(cX + dX, cY, tZoom, tZoom);
-                g.setColor(sample.getColorWeft(i));
-                g.fillRect(cX + 1, cY + 1, tZoom - 2, tZoom - 2);
-                g.setColor(Color.BLACK);
-                g.drawRect(cX, cY, tZoom, tZoom);
-                g.drawRect(cX + dX, cY, tZoom, tZoom);
-                g.drawString(String.format("%d", i + 1), cX + dX, cY);
-                cX += dX;
-
-
-                cY += dY;
+            } catch (Exception e) {
             }
+        }
+
+        protected void onClicked(int X, int Y, boolean isPop) {
+            int nX = X / tZoom;
+            int nY = Y / tZoom;
+
+            if ((nX < 0) || (nX >= sample.getCntTreadles() + 2)) return;
+            if ((nY < 0) || (nY >= sample.getCntWefts())) return;
+
+            if (isPop) {
+                popMenu.show(this, X, Y);
+                return;
+            }
+
+            if (isSampleLeft())
+                nX = sample.getCntTreadles() - nX + 1;
+            if (!isSampleTop())
+                nY = sample.getCntWefts() - nY - 1;
+
+            if (nX == sample.getCntTreadles()) {
+                Color c = JColorChooser.showDialog(null, "choise Color", sample.getColorWeft(nY));
+                sample.setColorWeft(nY, c);
+            } else if (nX < sample.getCntTreadles()){
+                sample.setTreadleWeft(nY, nX);
+            }
+            jPatPanel.repaint();
         }
 
     }
@@ -417,49 +403,41 @@ public class GUISample extends GUIPattern {
             }
         }
 
-    }
+        protected void onClicked(int X, int Y, boolean isPop) {
+            int nX = X / tZoom;
+            int nY = Y / tZoom;
 
-//    private class SampleLayout implements LayoutManager {
-//
-//        public void addLayoutComponent(String name, Component comp) {
-//        }
-//
-//        public void removeLayoutComponent(Component comp) {
-//        }
-//
-//        private Dimension calculateBestSize(Container c) {
-//            return new Dimension((getAXCount() + 2) * tZoom, (getAYCount() + 2) * tZoom);
-//        }
-//
-//        public Dimension preferredLayoutSize(Container parent) {
-//            return calculateBestSize(parent);
-//        }
-//
-//        public Dimension minimumLayoutSize(Container parent) {
-//            return calculateBestSize(parent);
-//        }
-//
-//        public void layoutContainer(Container parent) {
-//            for (Component comp: parent.getComponents()) {
-//                if (comp instanceof Pans) {
-//                    Pans p = (Pans)comp;
-//                    comp.setBounds(p.posX, p.posY, p.szX, p.szY);
-//                }
-//            }
-//        }
-//    }
+            if ((nX < 0) || (nX >= sample.getCntTreadles() + 2)) return;
+            if ((nY < 0) || (nY >= sample.getCntHeddles() + 2)) return;
+
+            if (isPop) {
+                popMenu.show(this, X, Y);
+                return;
+            }
+
+            if (isSampleLeft())
+                nX = sample.getCntTreadles() - nX + 1;
+            if (isSampleTop())
+                nY = sample.getCntHeddles() - nY + 1;
+
+            try {
+                if ((nX < sample.getCntTreadles()) && (nY < sample.getCntHeddles())) {
+                    boolean isUp = sample.getIsSampleUp(nY, nX);
+                    sample.setIsSampleUp(nY, nX, !isUp);
+                }
+            } catch (Exception e) {
+            }
+
+            jPatPanel.repaint();
+
+        }
+
+    }
 
     private PanView panView;
     private PanWarps panWarps;
     private PanWefts panWefts;
     private PanSample panSample;
-
-    private void onSetPos() {
-        panView.onSetPosSample();
-        panWarps.onSetPosSample();
-        panWefts.onSetPosSample();
-        panSample.onSetPosSample();
-    }
 
     protected void initParams() {
         parameters = new GUISampleParameters();
@@ -500,22 +478,22 @@ public class GUISample extends GUIPattern {
         }
     }
 
+    public void posSet(PosSample pos) {
+        posSample = pos;
+        onSetPos();
+    }
+
+    public void posTopLeft()  { posSet(TOPLEFT); }
+    public void posTopRight() { posSet(TOPRIGHT); }
+    public void posBtmLeft()  { posSet(BTMLEFT); }
+    public void posBtmRight() { posSet(BTMRIGHT); }
+
     private class PopMenuListener implements ActionListener {
 
         public PopMenuListener() {
             super();
         }
 
-
-        public void posSet(PosSample pos) {
-            posSample = pos;
-            onSetPos();
-        }
-
-        public void posTopLeft()  { posSet(TOPLEFT); }
-        public void posTopRight() { posSet(TOPRIGHT); }
-        public void posBtmLeft()  { posSet(BTMLEFT); }
-        public void posBtmRight() { posSet(BTMRIGHT); }
 
         public void actionPerformed(ActionEvent event) {
             {

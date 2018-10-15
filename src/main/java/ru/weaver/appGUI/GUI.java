@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import static ru.weaver.appGUI.GUIUtils.AddStatLb;
 
@@ -96,33 +97,74 @@ public class GUI {
   }
 
   private void buildTools() {
-    toolBar.setFloatable(false);
-    {
-      JButton bt = new JButton();
-      bt.setActionCommand("NewSample");
-      bt.addActionListener(listener);
-      toolBar.add(bt);
-    }
-    toolBar.addSeparator();
-    {
-      JButton bt = new JButton("+");
-      bt.setActionCommand("ZoomInSample");
-      bt.addActionListener(listener);
-      toolBar.add(bt);
-    }
-    {
-      JButton bt = new JButton("-");
-      bt.setActionCommand("ZoomOutSample");
-      bt.addActionListener(listener);
-      toolBar.add(bt);
-    }
-    {
-      JButton bt = new JButton("10");
-      bt.setActionCommand("Zoom10Sample");
-      bt.addActionListener(listener);
-      toolBar.add(bt);
-    }
-    toolBar.addSeparator();
+      ClassLoader cl = this.getClass().getClassLoader();
+      toolBar.setFloatable(false);
+      {
+          JButton bt = new JButton();
+          bt.setActionCommand("NewSample");
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton();
+          bt.setActionCommand("SaveFile");
+          bt.setIcon(new ImageIcon(cl.getResource("icon/save.png")));
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      toolBar.addSeparator();
+      {
+          JButton bt = new JButton("+");
+          bt.setActionCommand("ZoomInSample");
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton("-");
+          bt.setActionCommand("ZoomOutSample");
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton("10");
+          bt.setActionCommand("Zoom10Sample");
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      toolBar.addSeparator();
+      {
+          JButton bt = new JButton();
+          bt.setActionCommand("SampleTopLeft");
+          bt.setToolTipText("Sample to top-left position");
+          bt.setIcon(new ImageIcon(cl.getResource("icon/pos_tl.png")));
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton();
+          bt.setActionCommand("SampleTopRight");
+          bt.setToolTipText("Sample to top-right position");
+          bt.setIcon(new ImageIcon(cl.getResource("icon/pos_tr.png")));
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton();
+          bt.setActionCommand("SampleBtmLeft");
+          bt.setToolTipText("Sample to bottom-left position");
+          bt.setIcon(new ImageIcon(cl.getResource("icon/pos_bl.png")));
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      {
+          JButton bt = new JButton("");
+          bt.setActionCommand("SampleBtmRight");
+          bt.setToolTipText("Sample to bottom-right position");
+          bt.setIcon(new ImageIcon(cl.getResource("icon/pos_br.png")));
+          bt.addActionListener(listener);
+          toolBar.add(bt);
+      }
+      toolBar.addSeparator();
   }
 
   private void buildStatBar() {
