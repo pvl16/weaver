@@ -130,6 +130,96 @@ public class Sample extends Pattern {
 
     }
 
+    public Sample(LoomPatternType loomPatternType) throws Exception {
+        short _cntTreadles;
+        short _cntHeddles;
+        short _cntWarps;
+        short _cntWefts;
+        boolean _isRoll;
+
+        SampleType sampleType = loomPatternType.getSample();
+        WarpsType warpsType = loomPatternType.getWarps();
+        WeftsType weftsType = loomPatternType.getWefts();
+
+        _cntTreadles = sampleType.getTreadlesCount();
+        _cntHeddles = sampleType.getHeddlesCount();
+        _cntWarps = warpsType.getCount();
+        _cntWefts = weftsType.getCount();
+        _isRoll = loomPatternType.isIsRoll();
+
+        if (_cntTreadles <= 0)
+            throw new IllegalArgumentException("cntTreadles is negative");
+        if (_cntHeddles <= 0)
+            throw new IllegalArgumentException("cntHeddles is negative");
+        if ((_isRoll)&&((_cntHeddles % 2) == 1))
+            throw new IllegalArgumentException("cntHeddles is not even");
+        if (_cntWarps <= 0)
+            throw new IllegalArgumentException("cntWarps is negative");
+        if (_cntWefts <= 0)
+            throw new IllegalArgumentException("cntWefts is negative");
+
+        this.cntTreadles = _cntTreadles;
+        this.cntHeddles = _cntHeddles;
+        this.cntWarps = _cntWarps;
+        this.cntWefts = _cntWefts;
+        this.isRoll = _isRoll;
+
+        short tIndex = 0;
+
+        Warps = new ArrayList<Warp>();
+        for (short i = 0; i < cntWarps; i++) {
+            Warps.add(new Warp(tIndex, Color.GREEN));
+            tIndex++;
+            if (tIndex >= cntHeddles)
+                tIndex = 0;
+        }
+        for (WarpType w: warpsType.getWarp()) {
+            short idx = w.getIndex();
+            short h = w.getHeddle();
+            if ((h < 0)||(h >= cntHeddles))
+                throw new IllegalArgumentException("Heddle num not in cntHeddles");
+//            Color c = new Color(w.getColor());
+//            Warps.get(idx).setColor();
+            Warps.get(idx).setNumberHeddle(h);
+        }
+
+        Wefts = new ArrayList<Weft>();
+        tIndex = 0;
+        for (short i = 0; i < cntWefts; i++) {
+            Wefts.add(new Weft(tIndex, Color.RED));
+            tIndex++;
+            if (tIndex >= cntTreadles)
+                tIndex = 0;
+        }
+        for (WeftType w: weftsType.getWeft()) {
+            short idx = w.getIndex();
+            short t = w.getTreadle();
+            if ((t < 0)||(t >= cntTreadles))
+                throw new IllegalArgumentException("Treadle num not in cntTreadles");
+//            Color c = new Color(w.getColor());
+//            Wefts.get(idx).setColor();
+            Wefts.get(idx).setNumberTreadle(t);
+        }
+
+        samples = new ArrayList<Object>();
+        for (short i = 0; i< cntHeddles; i++) {
+            ArrayList<Boolean> o = new ArrayList<Boolean>();
+            for (short j = 0; j< cntTreadles ; j++)
+                o.add(i == j);
+            samples.add(o);
+        }
+        for(SampleElementType el: sampleType.getSampleElement()) {
+            short h = el.getHeddle();
+            short t = el.getTreadle();
+            boolean isUp = el.isIsUp();
+            if ((h < 0)||(h >= cntHeddles))
+                throw new IllegalArgumentException("Heddle num not in cntHeddles");
+            if ((t < 0)||(t >= cntTreadles))
+                throw new IllegalArgumentException("Treadle num not in cntTreadles");
+            this.setIsSampleUp(h, t, isUp);
+        }
+    }
+
     public short getCntTreadles() {
         return cntTreadles;
     }

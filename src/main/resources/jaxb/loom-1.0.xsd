@@ -39,6 +39,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Sample" type="SampleType"/>
+			<xs:element name="isRoll" type="xs:boolean"/>
 			<!--<xs:element name="TreadlesCount" type="xs:short"/>-->
 			<!--<xs:element name="HeddlesCount" type="xs:short"/>-->
 			<xs:element name="Warps" type="WarpsType"/>
