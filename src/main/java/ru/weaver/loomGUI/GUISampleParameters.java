@@ -7,10 +7,10 @@ public class GUISampleParameters extends GUIPatternParameters {
   public boolean isGet() {
     super.isGet();
     res = true;
-    return res;
+    return true;
   }
 
-  public GUISampleParameters() {
+  GUISampleParameters() {
     super();
     setTitle("New Sample Parameters");
     this.setSize(500, 300);

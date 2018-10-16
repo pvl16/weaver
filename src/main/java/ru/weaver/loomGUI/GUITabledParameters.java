@@ -5,7 +5,7 @@ public class GUITabledParameters extends GUIPatternParameters {
     public boolean isGet() {
         super.isGet();
         res = true;
-        return res;
+        return true;
     }
 
     public GUITabledParameters() {

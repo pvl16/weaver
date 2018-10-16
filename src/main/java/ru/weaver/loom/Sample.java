@@ -20,10 +20,10 @@ public class Sample extends Pattern {
     private ArrayList<Object> samples;
 
     private class Warp {
-        private short numberHeddle = 0;
-        Color color = null;
+        private short numberHeddle;
+        Color color;
 
-        public Warp(short numberHeddle, Color color) {
+        Warp(short numberHeddle, Color color) {
             this.numberHeddle = numberHeddle;
             this.color = color;
         }
@@ -32,7 +32,7 @@ public class Sample extends Pattern {
             return numberHeddle;
         }
 
-        public void setNumberHeddle(short numberHeddle) {
+        void setNumberHeddle(short numberHeddle) {
             if (numberHeddle < 0)
                 numberHeddle = 0;
             if (numberHeddle >= cntHeddles)
@@ -44,16 +44,16 @@ public class Sample extends Pattern {
             return color;
         }
 
-        public void setColor(Color color) {
+        void setColor(Color color) {
             this.color = color;
         }
     }
 
     private class Weft {
-        private short numberTreadle = 0;
-        Color color = null;
+        private short numberTreadle;
+        Color color;
 
-        public Weft(short numberTreadle, Color color) {
+        Weft(short numberTreadle, Color color) {
             this.numberTreadle = numberTreadle;
             this.color = color;
         }
@@ -62,7 +62,7 @@ public class Sample extends Pattern {
             return numberTreadle;
         }
 
-        public void setNumberTreadle(short numberTreadle) {
+        void setNumberTreadle(short numberTreadle) {
             if (numberTreadle < 0)
                 numberTreadle = 0;
             if (numberTreadle >= cntTreadles)
@@ -74,13 +74,13 @@ public class Sample extends Pattern {
             return color;
         }
 
-        public void setColor(Color color) {
+        void setColor(Color color) {
             this.color = color;
         }
     }
 
-    private ArrayList<Warp> Warps = null;
-    private ArrayList<Weft> Wefts = null;
+    private ArrayList<Warp> Warps;
+    private ArrayList<Weft> Wefts;
 
     public Sample(short cntTreadles, short cntHeddles, short cntWarps, short cntWefts, boolean isRoll, Color clrWarps, Color clrWefts) {
         super();
@@ -332,8 +332,8 @@ public class Sample extends Pattern {
         try {
             LoomPatternType loomPattern = new LoomPatternType();
             SampleType sampleType = new SampleType();
-            sampleType.setTreadlesCount((short) cntTreadles);
-            sampleType.setHeddlesCount((short) cntHeddles);
+            sampleType.setTreadlesCount(cntTreadles);
+            sampleType.setHeddlesCount(cntHeddles);
             for (short i = 0; i < cntHeddles; i++) {
                 for (short j = 0; j < cntTreadles; i++) {
                     SampleElementType el = new SampleElementType();
@@ -345,7 +345,7 @@ public class Sample extends Pattern {
             }
             loomPattern.setSample(sampleType);
             WarpsType warpsType = new WarpsType();
-            warpsType.setCount((short) Warps.size());
+            warpsType.setCount(cntWarps);
             short idx = 0;
             for (Warp w : this.Warps) {
                 WarpType warpType = new WarpType();
@@ -360,10 +360,7 @@ public class Sample extends Pattern {
         }
     }
 
+    public void fillFromXML(LoomPatternType loomPatternType) {
 
-//    @Override
-//    public void savetoFile(String path) {
-//
-//    }
-
+    }
 }

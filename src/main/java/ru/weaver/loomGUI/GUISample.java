@@ -17,7 +17,7 @@ import ru.weaver.appGUI.GUIUtils;
 import static ru.weaver.loomGUI.GUISample.PosSample.*;
 
 public class GUISample extends GUIPattern {
-    enum PosSample{TOPLEFT, TOPRIGHT, BTMLEFT, BTMRIGHT};
+    enum PosSample{TOPLEFT, TOPRIGHT, BTMLEFT, BTMRIGHT}
     private Sample sample;
     private int tZoom;
     private PosSample posSample;
@@ -48,7 +48,7 @@ public class GUISample extends GUIPattern {
     }
 
     protected void AfterChooseFileSave() {
-        sample.savetoFile(filePath);
+        sample.saveToFile(filePath);
     }
 
     public boolean LoadFile(File filePath) {
@@ -96,7 +96,7 @@ public class GUISample extends GUIPattern {
         int dX;
         int dY;
 
-        public Pans() {
+        Pans() {
             this.setKXY();
             this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
             this.onSetPosSample();
@@ -104,11 +104,11 @@ public class GUISample extends GUIPattern {
             this.addMouseListener(new pansMouseAdapter());
         }
 
-        protected int getXCount() {
+        int getXCount() {
             return kXCnt * sample.getCntWarps() + (1 - kXCnt) * (sample.getCntTreadles() + 2);
         }
 
-        protected int getYCount() {
+        int getYCount() {
             return kYCnt * sample.getCntWefts() + (1 - kYCnt) * (sample.getCntHeddles() + 2);
         }
 
@@ -119,7 +119,7 @@ public class GUISample extends GUIPattern {
             kYPos = 0;
         }
 
-        public void onSetSize() {
+        void onSetSize() {
             int xcnt  = getXCount();
             int axcnt = getAXCount();
             int ycnt  = getYCount();
@@ -141,7 +141,6 @@ public class GUISample extends GUIPattern {
         }
 
         protected void onClicked(int X, int Y, boolean isPop) {
-            return;
         }
 
         private class pansMouseAdapter extends MouseAdapter {
@@ -173,7 +172,7 @@ public class GUISample extends GUIPattern {
             super.paintComponent(g);
             short cntX = sample.getCntWarps();
             short cntY = sample.getCntWefts();
-            int cX = 0;
+            int cX;
             int cY = bgY;
 
             for(short i = 0; i < cntY; i++) {
@@ -193,8 +192,6 @@ public class GUISample extends GUIPattern {
         }
 
         protected void onClicked(int X, int Y) {
-
-            return;
         }
 
     }

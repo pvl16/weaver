@@ -15,11 +15,11 @@ public class Pattern {
     protected String name;
 //  protected M
 
-    public Pattern() {
+    Pattern() {
         name = "Pattern 1";
     }
 
-    protected void forSaveFile_init(WeavePatternType weavePattern) {
+    private void forSaveFile_init(WeavePatternType weavePattern) {
         weavePattern.setSchemaVersion("1.0");
         weavePattern.setName(this.name);
     }
@@ -28,7 +28,7 @@ public class Pattern {
 
     }
 
-    public void savetoFile(File path) {
+    public void saveToFile(File path) {
         WeavePatternType weavePattern = new WeavePatternType();
         forSaveFile_init(weavePattern);
         forSaveFile_getPattern(weavePattern);
@@ -53,4 +53,5 @@ public class Pattern {
             e.printStackTrace();
         }
     }
+
 }
