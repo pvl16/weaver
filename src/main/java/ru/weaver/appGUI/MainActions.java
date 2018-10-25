@@ -3,6 +3,7 @@ package ru.weaver.appGUI;
 import ru.weaver.NotCreatePattern;
 import ru.weaver.loomGUI.GUIPattern;
 import ru.weaver.loomGUI.GUISample;
+import ru.weaver.loomGUI.GUITabled;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 class MainActions {
     static Action exit;
     static Action newSample;
+    static Action newTabled;
     static Action saveFile;
     static Action zoomInSample;
     static Action zoomOutSample;
@@ -22,6 +24,7 @@ class MainActions {
     static void init() {
         exit            = new Exit();
         newSample       = new NewSample();
+        newTabled       = new NewTabled();
         saveFile        = new SaveFile();
         zoomInSample    = new ZoomInSample();
         zoomOutSample   = new ZoomOutSample();
@@ -57,6 +60,24 @@ class MainActions {
                 GUIUtils.addFrame(gs);
                 gs.setVisible(true);
                 gs.getComponentPopupMenu().show(gs, 5, 5);
+            } catch (NotCreatePattern e) {
+            }
+        }
+    }
+
+    private static class NewTabled extends pvlAbstractAction {
+
+        public NewTabled() {
+            super("New Sample", "Create tabled pattern", "ctrl alt T", "newtabled.png");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            try {
+                GUITabled gt = new GUITabled();
+                GUIUtils.addFrame(gt);
+                gt.setVisible(true);
+                gt.getComponentPopupMenu().show(gt, 5, 5);
             } catch (NotCreatePattern e) {
             }
         }

@@ -425,7 +425,7 @@ public class Sample extends Pattern {
             sampleType.setTreadlesCount(cntTreadles);
             sampleType.setHeddlesCount(cntHeddles);
             for (short i = 0; i < cntHeddles; i++) {
-                for (short j = 0; j < cntTreadles; i++) {
+                for (short j = 0; j < cntTreadles; j++) {
                     SampleElementType el = new SampleElementType();
                     el.setHeddle(i);
                     el.setTreadle(j);

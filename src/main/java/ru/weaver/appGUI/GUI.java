@@ -52,7 +52,7 @@ public class GUI {
                     newMenu.add(newSample);
                 }
                 {
-                    pvlJMenuItem newTabled = new pvlJMenuItem("New Tabled");
+                    pvlJMenuItem newTabled = new pvlJMenuItem(MainActions.newTabled);
                     newMenu.add(newTabled);
                 }
                 fileMenu.add(newMenu);
@@ -123,6 +123,10 @@ public class GUI {
         toolBar.setFloatable(false);
         {
             pvlJButton bt = new pvlJButton(MainActions.newSample, true);
+            toolBar.add(bt);
+        }
+        {
+            pvlJButton bt = new pvlJButton(MainActions.newTabled, true);
             toolBar.add(bt);
         }
         {
